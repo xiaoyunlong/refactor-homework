@@ -182,3 +182,40 @@ rankTest('case10: captainHistoryRisk test history length < 5 and zone != china',
 
   t.is(result, 5);
 })
+
+rankTest('case11: captainHistoryRisk test history length > 5 and zone != china', t => {
+  const voyage = {
+    zone: 'west-indies',
+    length: 10,
+  };
+  const history = [
+    {
+      zone: 'east-indies',
+      profit: 6,
+    },
+    {
+      zone: 'west-indies',
+      profit: 4,
+    },
+    {
+      zone: 'china',
+      profit: 2,
+    },
+    {
+      zone: 'west-africa',
+      profit: 7,
+    },
+    {
+      zone: 'west-indies',
+      profit: 7,
+    },
+    {
+      zone: 'west-africa',
+      profit: 7,
+    }
+  ];
+
+  const result = captainHistoryRisk(voyage, history)
+
+  t.is(result, 1);
+})
