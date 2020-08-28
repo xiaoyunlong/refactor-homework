@@ -71,4 +71,22 @@ rankTest('case6: voyageRisk test voyage length > 8 and zone is china', t => {
 })
 
 
+rankTest('case7: captainHistoryRisk test history length < 5 and zone is china', t => {
+  const voyage = {
+    zone: 'china',
+    length: 10,
+  };
+  const history = [
+    {
+      zone: 'east-indies',
+      profit: 6,
+    },{
+      zone: 'west-indies',
+      profit: 4,
+    }
+  ];
 
+  const result = captainHistoryRisk(voyage, history)
+
+  t.is(result, 5);
+})
