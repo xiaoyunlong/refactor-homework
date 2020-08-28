@@ -3,6 +3,8 @@ const voyageRules = {
     lengthMoreThen8: (length,result) => { return result += length - 6;},
     lengthLessThen4: (length,result) => {return result = 1},
 }
+
+
 const zoneHistory = [ 'china',
                    'east-indies',
                 ];
@@ -38,6 +40,7 @@ function captainHistoryRisk (voyage, history) {
   if (history.length < 5) {
     result += 4;
   }
+
   result += history.filter(v => v.profit < 0).length;
   if (voyage.zone === 'china' && hasChina(history)) {
     result -= 2;
@@ -45,14 +48,24 @@ function captainHistoryRisk (voyage, history) {
   return Math.max(result, 0);
 }
 
+const voyageProfitFactorRules = {
+   typeIsChina: (result) => { return result += 1;},
+   typeIsEastIndies: (result) => { return result += 1;},
+   noType:(result) => { return result = 2;},
+}
+
+function determineAction2(type){
+    if(type === 'china') return 'typeIsChina';
+    if(type === 'east-indies') return 'typeIsEastIndies';
+    return 'noType'
+}
+
 function voyageProfitFactor (voyage, history) {
   let result = 2;
-  if (voyage.zone === 'china') {
-    result += 1;
-  }
-  if (voyage.zone === 'east-indies') {
-    result += 1;
-  }
+
+  const action = determineAction2(voyage.zone);
+  result = voyageProfitFactorRules[action](result);
+
   if (voyage.zone === 'china' && hasChina(history)) {
     result += 3;
     if (history.length > 10) {
@@ -86,6 +99,7 @@ function rating (voyage, history) {
   else {
     return 'B';
   }
+
 }
 
 module.exports = {
