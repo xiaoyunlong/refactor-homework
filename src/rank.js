@@ -1,15 +1,26 @@
+const rules = {
+    x: (length,result) => { return result += 2;},
+    y: (length,result) => { return result += length - 6;},
+    z: (length,result) => {return result = 1}
+
+}
+
+function determineAction(length){
+    if(length>8) return 'y';
+    if(length>4) return 'x';
+    return 'z'
+}
+
 function voyageRisk (voyage) {
   let result = 1;
-  if (voyage.length > 4) {
-    result += 2;
-  }
-  if (voyage.length > 8) {
-    result += voyage.length - 8;
-  }
-  if ([
-    'china',
-    'east-indies',
-  ].includes(voyage.zone)) {
+
+  const action = determineAction(voyage.length);
+  result = rules[action](voyage.length,result);
+
+  let history = [ 'china',
+                   'east-indies',
+                ];
+  if (history.includes(voyage.zone)) {
     result += 4;
   }
   return Math.max(result, 0);
