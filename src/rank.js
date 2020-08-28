@@ -4,11 +4,21 @@ const rules = {
     z: (length,result) => {return result = 1}
 
 }
+const zoneHistory = [ 'china',
+                   'east-indies',
+                ];
 
 function determineAction(length){
     if(length>8) return 'y';
     if(length>4) return 'x';
     return 'z'
+}
+
+function includeZone(zone,result){
+    if (zoneHistory.includes(zone)) {
+        return result += 4;
+      }
+    return result;
 }
 
 function voyageRisk (voyage) {
@@ -17,13 +27,7 @@ function voyageRisk (voyage) {
   const action = determineAction(voyage.length);
   result = rules[action](voyage.length,result);
 
-  let history = [ 'china',
-                   'east-indies',
-                ];
-  if (history.includes(voyage.zone)) {
-    result += 4;
-  }
-  return Math.max(result, 0);
+  return Math.max(includeZone(voyage.zone,result), 0);
 }
 
 function hasChina (history) {
