@@ -1,17 +1,16 @@
-const rules = {
-    x: (length,result) => { return result += 2;},
-    y: (length,result) => { return result += length - 6;},
-    z: (length,result) => {return result = 1}
-
+const voyageRules = {
+    lengthMoreThen4: (length,result) => { return result += 2;},
+    lengthMoreThen8: (length,result) => { return result += length - 6;},
+    lengthLessThen4: (length,result) => {return result = 1},
 }
 const zoneHistory = [ 'china',
                    'east-indies',
                 ];
 
 function determineAction(length){
-    if(length>8) return 'y';
-    if(length>4) return 'x';
-    return 'z'
+    if(length>8) return 'lengthMoreThen8';
+    if(length>4) return 'lengthMoreThen4';
+    return 'lengthLessThen4'
 }
 
 function includeZone(zone,result){
@@ -25,7 +24,7 @@ function voyageRisk (voyage) {
   let result = 1;
 
   const action = determineAction(voyage.length);
-  result = rules[action](voyage.length,result);
+  result = voyageRules[action](voyage.length,result);
 
   return Math.max(includeZone(voyage.zone,result), 0);
 }
